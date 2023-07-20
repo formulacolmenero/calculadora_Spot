@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Calculator</title>
+  <style>
+    /* Add your custom styles here */
+  </style>
+</head>
+<body>
+  <h1>Product Calculator</h1>
+
+  <div>
+    <label for="product">Select Product:</label>
+    <select id="product">
+      <option value="">-- Select Product --</option>
+      <!-- Product options will be dynamically added here -->
+    </select>
+  </div>
+
+  <div>
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" min="1" value="1">
+  </div>
+
+  <div>
+    <button onclick="calculateTotal()">Calculate Total</button>
+  </div>
+
+  <div>
+    <h2>Total: <span id="total">0</span></h2>
+  </div>
+
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script>
+    function init() {
+      gapi.load('client', loadClient);
+    }
+
+    function loadClient() {
+      gapi.client.init({
+        apiKey: 'YOUR_API_KEY',
+        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+      }).then(function() {
+        fetchProducts();
+      });
+    }
+
+    function fetchProducts() {
+      gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: 'YOUR_SPREADSHEET_ID',
+        range: 'Sheet1!A2:C', // Adjust the range to match your data in the Google Sheets
+      }).then(function(response) {
+        var products = response.result.values;
+        var productDropdown = document.getElementById('product');
+
+        products.forEach(function(product) {
+          var productCode = product[0];
+          var productName = product[1];
+          var price = parseFloat(product[2]);
+
+          var option = document.createElement('option');
+          option.value = productCode;
+          option.textContent = productName + ' - $' + price.toFixed(2);
+          productDropdown.appendChild(option);
+        });
+      });
+    }
+
+    function calculateTotal() {
+      var product = document.getElementById("product").value;
+      var quantity = document.getElementById("quantity").value;
+
+      // Retrieve the product price based on the selected option
+      var price = getProductPrice(product);
+
+      var total = price * quantity;
+      document.getElementById("total").textContent = total.toFixed(2);
+    }
+
+    function getProductPrice(productCode) {
+      // Replace this with your logic to retrieve the price from the selected product code
+      // You can refer to the parsed data from the Google Sheets or fetch the data from an API/database
+      // For simplicity, here's an example with hardcoded prices
+      switch (productCode) {
+        case "P1":
+          return 10.99;
+        case "P2":
+          return 19.99;
+        case "P3":
+          return 7.99;
+        default:
+          return 0;
+      }
+    }
+  </script>
+</body>
+</html>
 
