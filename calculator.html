@@ -3,7 +3,54 @@
 <head>
   <title>Product Calculator</title>
   <style>
-    /* Add your custom styles here */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    div {
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    select,
+    input[type="number"],
+    button {
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    select {
+      width: 100%;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    h2 {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #total {
+      font-size: 24px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -38,7 +85,7 @@
 
     function loadClient() {
       gapi.client.init({
-        apiKey: 'AIzaSyA137zKreKkC5DFoOxuvUgUs5w3lds9_yo', // Replace with your actual Google API key
+        apiKey: 'AIzaSyA137zKreKkC5DFoOxuvUgUs5w3lds9_yo',
         discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
       }).then(function() {
         fetchProducts();
@@ -47,7 +94,7 @@
 
     function fetchProducts() {
       gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: '1o0OzxTuS5ikx7nu9IjcXFRVSPt2HyEB3j305giy1BNE', // Replace with the provided Google Sheets spreadsheet ID
+        spreadsheetId: '1o0OzxTuS5ikx7nu9IjcXFRVSPt2HyEB3j305giy1BNE',
         range: 'Sheet1!A2:C',
       }).then(function(response) {
         var products = response.result.values;
@@ -70,7 +117,6 @@
       var product = document.getElementById("product").value;
       var quantity = document.getElementById("quantity").value;
 
-      // Retrieve the product price based on the selected option
       var price = getProductPrice(product);
 
       var total = price * quantity;
@@ -78,9 +124,6 @@
     }
 
     function getProductPrice(productCode) {
-      // Replace this with your logic to retrieve the price from the selected product code
-      // You can refer to the parsed data from the Google Sheets or fetch the data from an API/database
-      // For simplicity, here's an example with hardcoded prices
       switch (productCode) {
         case "P1":
           return 10.99;
@@ -95,5 +138,3 @@
   </script>
 </body>
 </html>
-
-
