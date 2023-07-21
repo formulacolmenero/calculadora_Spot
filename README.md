@@ -94,7 +94,7 @@
 
     function fetchProducts() {
       gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: '1o0OzxTuS5ikx7nu9IjcXFRVSPt2HyEB3j305giy1BNE',
+        spreadsheetId: 1o0OzxTuS5ikx7nu9IjcXFRVSPt2HyEB3j305giy1BNE,
         range: 'Products!b3:f',
       }).then(function(response) {
         var products = response.result.values;
