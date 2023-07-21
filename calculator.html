@@ -38,7 +38,7 @@
 
     function loadClient() {
       gapi.client.init({
-        apiKey: 'YOUR_API_KEY',
+        apiKey: 'AIzaSyA137zKreKkC5DFoOxuvUgUs5w3lds9_yo', // Replace with your actual Google API key
         discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
       }).then(function() {
         fetchProducts();
@@ -47,8 +47,8 @@
 
     function fetchProducts() {
       gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: 'YOUR_SPREADSHEET_ID',
-        range: 'Sheet1!A2:C', // Adjust the range to match your data in the Google Sheets
+        spreadsheetId: '1o0OzxTuS5ikx7nu9IjcXFRVSPt2HyEB3j305giy1BNE', // Replace with the provided Google Sheets spreadsheet ID
+        range: 'Sheet1!A2:C',
       }).then(function(response) {
         var products = response.result.values;
         var productDropdown = document.getElementById('product');
@@ -95,4 +95,5 @@
   </script>
 </body>
 </html>
+
 
