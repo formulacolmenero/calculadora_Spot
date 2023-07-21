@@ -60,7 +60,6 @@
     <label for="product">Select Product:</label>
     <select id="product">
       <option value="">-- Select Product --</option>
-      <!-- Product options will be dynamically added here -->
     </select>
   </div>
 
@@ -77,39 +76,43 @@
     <h2>Total: <span id="total">0</span></h2>
   </div>
 
-  <script src="https://apis.google.com/js/api.js"></script>
   <script>
-    function init() {
-      gapi.load('client', loadClient);
-    }
+    var productsData = [
+      { code: "P1", name: "Product 1", price: 10.99 },
+      { code: "P2", name: "Product 2", price: 19.99 },
+      { code: "P3", name: "Product 3", price: 7.99 },
+      { code: "P4", name: "Pelon Peloneta", price: 5.99 },
+      { code: "P5", name: "Pelon Mini", price: 4.49 },
+      { code: "P6", name: "Bubbaloo", price: 2.29 },
+      { code: "P7", name: "Winis", price: 3.99 },
+      { code: "P8", name: "Diablitos", price: 6.49 },
+      { code: "P9", name: "Banderillas", price: 7.99 },
+      { code: "P10", name: "Lucas", price: 3.49 },
+      { code: "P11", name: "Vero Mix", price: 4.99 },
+      { code: "P12", name: "Maruchans", price: 1.99 },
+      { code: "P13", name: "frosh dulce", price: 2.99 },
+      { code: "P14", name: "Rockaleta Bola", price: 2.79 },
+      { code: "P15", name: "Gudupop", price: 3.49 },
+      { code: "P16", name: "Rockaleta paleta jr", price: 1.99 },
+      { code: "P17", name: "Bombiux mini", price: 1.49 },
+      { code: "P18", name: "Gudu Cubo", price: 2.99 },
+      { code: "P19", name: "Tix Tix paleta", price: 1.79 },
+      { code: "P20", name: "Arizona", price: 2.49 }
+      // Add more products to the array as needed
+    ];
 
-    function loadClient() {
-      gapi.client.init({
-        apiKey: 'AIzaSyA137zKreKkC5DFoOxuvUgUs5w3lds9_yo',
-        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-      }).then(function() {
-        fetchProducts();
-      });
+    function init() {
+      fetchProducts();
     }
 
     function fetchProducts() {
-      gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: 1o0OzxTuS5ikx7nu9IjcXFRVSPt2HyEB3j305giy1BNE,
-        range: 'Products!b3:f',
-      }).then(function(response) {
-        var products = response.result.values;
-        var productDropdown = document.getElementById('product');
+      var productDropdown = document.getElementById('product');
 
-        products.forEach(function(product) {
-          var productCode = product[0];
-          var productName = product[1];
-          var price = parseFloat(product[2]);
-
-          var option = document.createElement('option');
-          option.value = productCode;
-          option.textContent = productName + ' - $' + price.toFixed(2);
-          productDropdown.appendChild(option);
-        });
+      productsData.forEach(function(product) {
+        var option = document.createElement('option');
+        option.value = product.code;
+        option.textContent = product.name + ' - $' + product.price.toFixed(2);
+        productDropdown.appendChild(option);
       });
     }
 
@@ -124,16 +127,15 @@
     }
 
     function getProductPrice(productCode) {
-      switch (productCode) {
-        case "P1":
-          return 10.99;
-        case "P2":
-          return 19.99;
-        case "P3":
-          return 7.99;
-        default:
-          return 0;
+      var product = productsData.find(function(item) {
+        return item.code === productCode;
+      });
+
+      if (product) {
+        return product.price;
       }
+
+      return 0;
     }
   </script>
 </body>
